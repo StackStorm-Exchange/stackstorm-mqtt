@@ -37,7 +37,7 @@ class MQTTSensor(Sensor):
         self._logger.debug('[MQTTSensor]: setting up sensor...')
 
         self._client = mqtt.Client(self._client_id, clean_session=True,
-                             userdata=self._userdata, protocol=self._protocol)
+                             userdata=self._userdata, protocol=getattr(mqtt, self._protocol))
 
         if self._username:
             self._client.username_pw_set(self._username, password=self._password)
