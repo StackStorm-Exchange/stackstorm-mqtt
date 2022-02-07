@@ -18,6 +18,11 @@
   protocol:
     description: "MQTT protocol version. Default MQTTv311"
     type: "string"
+    enum:
+    - MQTTv3
+    - MQTTv311
+    - MQTTv5
+    default: MQTTv311
     required: false
     secret: false
   client_id:
