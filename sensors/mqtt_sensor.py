@@ -38,9 +38,14 @@ class MQTTSensor(Sensor):
 
         # NOTE: Need to ensure `protocol` MQTT* names are properly
         # handled as paho.mqtt constants and not bare strings
-        self._client = mqtt.Client(self._client_id, clean_session=True,
-                                   userdata=self._userdata,
-                                   protocol=getattr(mqtt, self._protocol))
+        protocol = getattr(mqtt, self._protocol)
+
+        # only older v3 protocols allow the `clean_session` parameter
+        # when calling `Client()` (v5 throws an exception if specified)
+        clargs = {'clean_session': True} if protocol in [mqtt.MQTTv31, mqtt.MQTTv311] else {}
+
+        self._client = mqtt.Client(self._client_id, userdata=self._userdata,
+                                   protocol=protocol, **clargs)
 
         if self._username:
             self._client.username_pw_set(self._username, password=self._password)
@@ -85,7 +90,7 @@ class MQTTSensor(Sensor):
     def remove_trigger(self, trigger):
         pass
 
-    def _on_connect(self, client, userdata, flags, rc):
+    def _on_connect(self, client, userdata, flags, rc, properties=None):
         self._logger.debug('[MQTTSensor]: Connected with code {}' + str(rc))
         if self._subscribe:
             for topic in self._subscribe:
