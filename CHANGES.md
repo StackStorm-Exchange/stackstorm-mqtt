@@ -1,5 +1,12 @@
 # Change Log
 
+# 1.0.2
+
+* Fix publish action protocol parameter handling
+* Fix exception in `mqtt.Client()` when using v5 protocol, don't pass
+  `clean_session` parameter.
+* Add `properties` parameter to sensor `_on_connect()` to support v5 protocol.
+
 # 1.0.1
 
 * Fix handling of protocol parameter from config
@@ -18,4 +25,4 @@
 
 # 0.1.0
 
-- First release 
+- First release
