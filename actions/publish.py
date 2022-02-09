@@ -1,4 +1,5 @@
 from st2common.runners.base_action import Action
+import paho.mqtt.client as paho
 import paho.mqtt.publish as publish
 
 
@@ -53,4 +54,4 @@ class PublishAction(Action):
                        hostname=self._hostname, port=self._port,
                        client_id=self._client_id, keepalive=60,
                        auth=self._auth_payload, tls=self._ssl_payload,
-                       protocol=self._protocol)
+                       protocol=getattr(paho, self._protocol))
