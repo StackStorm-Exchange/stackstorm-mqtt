@@ -1,4 +1,4 @@
-### Place configuration data for your pack here.
+### Configuration data for the MQTT pack.
 ---
 hostname: ''
 subscribe:
@@ -7,9 +7,12 @@ subscribe:
 ## Optional Parameters
 # client_id: ""
 # port: 1833
+# protocol: "<MQTTv3|MQTTv311|MQTTv5>"
 # username: ""
 # password: ""
+# userdata: ""
 # ssl: true
 # ssl_cacert: ""
 # ssl_cert: ""
 # ssl_key: ""
+# transport: "<tcp|websockets>"

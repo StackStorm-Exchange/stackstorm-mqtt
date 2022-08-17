@@ -19,6 +19,7 @@ to `/opt/stackstorm/configs/mqtt.yaml` and edit as required.
 * `ssl_cacert` - Path to SSL CA Certificate
 * `ssl_cert` - Path to SSL Certificate
 * `ssl_key` - Path to SSL Key
+* `transport` - MQTT transport. Can be `tcp` or `websockets` (default: tcp)
 
 You can also use dynamic values from the datastore. See the
 [docs](https://docs.stackstorm.com/reference/pack_configs.html) for more info.
