@@ -9,7 +9,7 @@
     type: "array"
     items:
       type: "string"
-    required: true
+    required: false
   port:
     description: "MQTT port to connect to. Default 1883"
     type: "integer"

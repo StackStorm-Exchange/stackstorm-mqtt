@@ -33,7 +33,7 @@ You can also use dynamic values from the datastore. See the
 Connects to a MQTT broker, subscribing to various topics and emitting triggers
 into the system.
 
-Requires: config setting `subscribe`.
+Requires: config setting `subscribe`.  (if not set sensor will not be started)
 Emits:
   * trigger: mqtt.message
   * payload: topic, message, userdata, qos, retain

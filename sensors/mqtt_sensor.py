@@ -37,6 +37,12 @@ class MQTTSensor(Sensor):
     def setup(self):
         self._logger.debug('[MQTTSensor]: setting up sensor...')
 
+        # if no topics are configured for subscription, then don't run
+        # the sensor
+        if not self._subscribe:
+            raise ValueError(
+                'MQTTSensor requires at least one subscription topic')
+
         # NOTE: Need to ensure `protocol` MQTT* names are properly
         # handled as paho.mqtt constants and not bare strings
         protocol = getattr(mqtt, self._protocol)
@@ -80,7 +86,8 @@ class MQTTSensor(Sensor):
 
     def cleanup(self):
         self._logger.debug('[MQTTSensor]: entering cleanup')
-        self._client.disconnect()
+        if self._client:
+            self._client.disconnect()
 
     def add_trigger(self, trigger):
         pass
