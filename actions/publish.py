@@ -23,6 +23,7 @@ class PublishAction(Action):
         self._ssl_cacert = self._config.get('ssl_cacert', None)
         self._ssl_cert = self._config.get('ssl_cert', None)
         self._ssl_key = self._config.get('ssl_key', None)
+        self._transport = self._config.get('transport', 'tcp')
 
         self._ssl_payload = None
         self._auth_payload = None
@@ -54,4 +55,5 @@ class PublishAction(Action):
                        hostname=self._hostname, port=self._port,
                        client_id=self._client_id, keepalive=60,
                        auth=self._auth_payload, tls=self._ssl_payload,
-                       protocol=getattr(paho, self._protocol))
+                       protocol=getattr(paho, self._protocol),
+                       transport=self._transport)

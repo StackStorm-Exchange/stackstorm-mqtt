@@ -32,9 +32,16 @@ class MQTTSensor(Sensor):
         self._ssl_cacert = self._config.get('ssl_cacert', None)
         self._ssl_cert = self._config.get('ssl_cert', None)
         self._ssl_key = self._config.get('ssl_key', None)
+        self._transport = self._config.get('transport', 'tcp')
 
     def setup(self):
         self._logger.debug('[MQTTSensor]: setting up sensor...')
+
+        # if no topics are configured for subscription, then don't run
+        # the sensor
+        if not self._subscribe:
+            raise ValueError(
+                'MQTTSensor requires at least one subscription topic')
 
         # NOTE: Need to ensure `protocol` MQTT* names are properly
         # handled as paho.mqtt constants and not bare strings
@@ -45,7 +52,7 @@ class MQTTSensor(Sensor):
         clargs = {'clean_session': True} if protocol in [mqtt.MQTTv31, mqtt.MQTTv311] else {}
 
         self._client = mqtt.Client(self._client_id, userdata=self._userdata,
-                                   protocol=protocol, **clargs)
+                                   protocol=protocol, transport=self._transport, **clargs)
 
         if self._username:
             self._client.username_pw_set(self._username, password=self._password)
@@ -63,8 +70,8 @@ class MQTTSensor(Sensor):
                 raise ValueError('[mqtt_sensor]: Missing "ssl_key" \
                                     config option')
 
-            self._client.tls_set(self._ssl_cacert, certfile=self._ssl_cert,
-                                keyfile=self._ssl_key)
+            self._client.tls_set(ca_certs=self._ssl_cacert, certfile=self._ssl_cert,
+                                 keyfile=self._ssl_key)
 
         # Wire up the adapter with the appropriate callback methods
         self._client.on_connect = self._on_connect
@@ -79,7 +86,8 @@ class MQTTSensor(Sensor):
 
     def cleanup(self):
         self._logger.debug('[MQTTSensor]: entering cleanup')
-        self._client.disconnect()
+        if self._client:
+            self._client.disconnect()
 
     def add_trigger(self, trigger):
         pass

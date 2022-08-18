@@ -1,5 +1,10 @@
 # Change Log
 
+# 1.2.0
+
+* Add `transport` config parameter to allow connecting to MQTT broker via websockets.
+* Make `subscribe` parameter optional, if not set then don't start MQTTSensor
+* Cleanup example config file
 # 1.1.0
 
 * Fix publish action protocol parameter handling

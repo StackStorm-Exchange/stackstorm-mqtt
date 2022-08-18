@@ -9,7 +9,7 @@
     type: "array"
     items:
       type: "string"
-    required: true
+    required: false
   port:
     description: "MQTT port to connect to. Default 1883"
     type: "integer"
@@ -64,5 +64,14 @@
   ssl_key:
     description: "Path to SSL Key"
     type: "string"
+    required: false
+    secret: false
+  transport:
+    description: "MQTT transport mechanism. Default: tcp"
+    type: "string"
+    enum:
+    - tcp
+    - websockets
+    default: "tcp"
     required: false
     secret: false
